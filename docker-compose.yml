@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  apigateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: Dockerfile
+    container_name: apigateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - billservice
+      - bookservice
+      - consultservice
+      - userservice
+
+  billservice:
+    build:
+      context: ./BillService
+      dockerfile: Dockerfile
+    container_name: billservice
+    ports:
+      - "8083:8083"
+
+  bookservice:
+    build:
+      context: ./BookService
+      dockerfile: Dockerfile
+    container_name: bookservice
+    ports:
+      - "8082:8082"
+
+  consultservice:
+    build:
+      context: ./ConsultService
+      dockerfile: Dockerfile
+    container_name: consultservice
+    ports:
+      - "8084:8084"
+
+  userservice:
+    build:
+      context: ./UserService
+      dockerfile: Dockerfile
+    container_name: userservice
+    ports:
+      - "8081:8081"

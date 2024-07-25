@@ -27,8 +27,8 @@ func main() {
 	router.HandleFunc("/bill", authenticate(proxy("/bill", "http://localhost:8083"))).Methods("GET")
 	router.HandleFunc("/consult", authenticate(proxy("/product", "http://localhost:8084"))).Methods("GET")
 
-	fmt.Println("API Gateway is running on :8000")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	fmt.Println("API Gateway is running on :8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func loginPage(w http.ResponseWriter, r *http.Request) {
