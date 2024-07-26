@@ -45,3 +45,10 @@ services:
     container_name: userservice
     ports:
       - "8081:8081"
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
