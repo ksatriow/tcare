@@ -4,7 +4,8 @@ This project demonstrates a simple microservices architecture using Go, Docker, 
 
 ##  Application Architecture
 
-
+![AppArch](/docs/apparch.png)
 
 ##  Environment Architecture
 
+![EnvArch](/docs/envarch.png)
