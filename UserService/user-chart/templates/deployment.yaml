@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.appName }}
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.strategy.surge }}
+      maxUnavailable: {{ .Values.strategy.unavailable }}
+    type: {{ .Values.strategy.type }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      # securityContext:
+      #   fsGroup: 1000
+      containers: 
+      - image: {{ .Values.image.repository }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Values.appName }}
+        volumeMounts:
+        - name: {{ .Values.log.vmountName2 }}  
+          mountPath: {{ .Values.log.vmountPath2 }}  
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        # securityContext:
+        #   allowPrivilegeEscalation: false
+          # readOnlyRootFilesystem: true
+          # runAsNonRoot: true
+          # runAsUser: 1000
+          # runAsGroup: 1000           
+      imagePullSecrets:
+      - name: {{ .Values.image.pullSecret }}
+      - name: {{ .Values.log.volumeName2 }}
+        persistentVolumeClaim:
+          claimName: be-sync-pvc
+      restartPolicy: {{ .Values.restartPolicy }}
+
+
