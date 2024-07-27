@@ -1,0 +1,53 @@
+appName: user
+
+image:
+  pullPolicy: Always
+  pullSecret: docker-hub-private
+  repository: kukuhsatrio/beuser
+
+replicaCount: 1
+
+hpa:
+  name: user
+  max: 5
+  min: 1
+  targetCPU: 75
+
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  name: user
+  host: tcare.com
+
+namespace: backend
+
+spec:
+  replicas: 1
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 50Mi
+  limits:
+    cpu: 500m
+    memory: 500Mi
+
+log:
+  vmountName2: logs
+  vmountPath2: /app2/log/
+  volumeName2: logs
+
+restartPolicy: Always
+
+service: 
+  externalPort: 8081
+  internalPort: 8081
+  name: user
+  port: 8081
+  protocol: TCP
+  type: ClusterIP
+
+strategy:
+  surge: 1
+  type: RollingUpdate
+  unavailable: 25%

@@ -1,0 +1,54 @@
+appName: book
+
+
+image:
+  pullPolicy: Always
+  pullSecret: docker-hub-private
+  repository: kukuhsatrio/besyncdata
+
+replicaCount: 1
+
+hpa:
+  name: book
+  max: 5
+  min: 1
+  targetCPU: 75
+
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  name: book
+  host: tcare.com
+
+namespace: backend
+
+spec:
+  replicas: 1
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 50Mi
+  limits:
+    cpu: 500m
+    memory: 500Mi
+
+log:
+  vmountName2: logs
+  vmountPath2: /app2/log/
+  volumeName2: logs
+
+restartPolicy: Always
+
+service: 
+  externalPort: 8082
+  internalPort: 8082
+  name: book
+  port: 8082
+  protocol: TCP
+  type: ClusterIP
+
+strategy:
+  surge: 1
+  type: RollingUpdate
+  unavailable: 25%
